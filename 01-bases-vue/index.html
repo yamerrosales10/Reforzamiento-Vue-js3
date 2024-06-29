@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="./index.css" />
+    </head>
+    <body style="background: #000; color: white">
+        <!-- no por que no esta dentro de app -->
+        <p>{{ 1 + 1 }}</p>
+        <div id="app" v-cloak>
+            <h1>Hola mundo desde index html</h1>
+            <p>{{ true ? "activo":"no activo" }}</p>
+            <p>{{ message.toUpperCase() }}</p>
+            <p>{{ fullName }}</p>
+            <hr />
+            <label for="">First name</label>
+            <input type="text" v-model="message" />
+            <label for="">Last name: {{ lastname }}</label>
+            <input type="text" v-model="lastname" />
+            <a :href="url" target="_blank">Ir a google</a>
+            <!--!!!! v-bind:href  o :href -->
+            <!-- v-html imprime y limpia html. o inyeccion de indepencia -->
+            <p v-html="raw_url">{{ raw_url }}</p>
+            <p>{{age}}</p>
+            <button type="button" v-on:click="onIncrement">Icrement</button>
+            <button type="button" v-on:click="age--">Decremente</button>
+            <!-- @click="" -->
+
+            <label for="">Age {{age}}</label>
+            <!-- <input type="text" v-model.lazy.trim="age" name="" id="" /> -->
+            <input type="text" v-model.capitalize="age" name="" id="" />
+        </div>
+        <!-- <div id="app2">
+            <h1>Hola mundo desde index html</h1>
+            <p>{{ true ? "activo":"no activo" }}</p>
+            <p>{{ message }}</p>
+        </div> -->
+
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script>
+            const vm = Vue.createApp({
+                // template: `
+                // <h1>Hola mundo 2</h1>
+                // <p>{{ true ? "activo":"no activo" }}</p>
+                // `,
+                // more methos
+                // methods: {},
+                // watch: {},
+
+                data() {
+                    return {
+                        message: `Hola mundo desde  aca `,
+                        lastname: "yonatan",
+                        url: "https://www.google.com",
+                        raw_url: "<a href='http://www.facebook.com'>Go fb</a>",
+                        age: 0,
+                    };
+                },
+                beforeCreate() {
+                    // antes de que se cree. this message es null
+                    console.log("Beforecreate() call", this.message);
+                },
+                created() {
+                    // cuando se creo. this.message ya existe
+                    console.log("created() call", this.message);
+                },
+                beforeMount() {
+                    // antes de que se monte. el elemento montado null
+                    console.log("beforeMount() call", this.$el);
+                },
+                mounted() {
+                    // cuando se monto . ya existe el elemento
+                    console.log("mounted() call", this.$el);
+                },
+                beforeUpdate() {
+                    // antes de que cambie el dom
+                    console.log("beforeupdate() call");
+                },
+                updated() {
+                    // cuando se cambio el dom
+                    console.log("updated() call");
+                },
+                beforeUnmount() {
+                    // antes de desmontar osea el contrario de mount se ejecuta
+                    console.log("beforeUnmount() call");
+                },
+                unmounted() {
+                    // cuando ya se desmonto se ejecuta
+                    console.log("unmounted() call");
+                },
+                methods: {
+                    onIncrement() {
+                        this.age++;
+                    },
+                },
+                computed: {
+                    fullName() {
+                        console.log("full name cimputed property was called");
+                        this.age;
+
+                        return `${this.message} Vigilio`;
+                    },
+                },
+                watch: {
+                    age(newVal, oldVal) {
+                        // console.log({ newVal, oldVal });
+                        setTimeout(() => {
+                            this.age = 20; // dentro de 3 seg se convierte 20
+                        }, 3000);
+                    },
+                },
+                // setup() {},
+            }).mount("#app"); // montar
+            // setTimeout(() => {
+            // vm.message = "yonatan";
+            // ´proxies
+            // vm.$data.message = "yonatan";
+            // }, 2000);
+        </script>
+    </body>
+</html>
